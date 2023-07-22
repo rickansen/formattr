@@ -108,10 +108,6 @@ section {
 body {
   line-height: 1;
 }
-ol,
-ul {
-  list-style: none;
-}
 blockquote,
 q {
   quotes: none;
@@ -140,6 +136,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.disableListStyle {
+  list-style-type: none;
+  margin: 0 0 1rem 0;
+  padding: 0;
 }
 
 .mainContainer {
@@ -192,6 +194,10 @@ code {
   /* font-size: 15px; */
 }
 
+.note {
+  margin-bottom: 2rem;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -200,6 +206,23 @@ code {
   /* font-size: 11px; */
 }
 
+.inline {
+  display: inline;
+}
 .center {
   text-align: center;
+}
+
+.bulletedContainer > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.bulletedContainer > * {
+  margin-bottom: 0.5rem;
+}
+
+ul > li,
+ol > li {
+  margin: 0 0 1rem 1rem;
 }
