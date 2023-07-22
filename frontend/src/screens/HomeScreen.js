@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function HomeScreen() {
   const [dateAndTitle, setDateAndTitle] = useState('');
@@ -20,11 +22,21 @@ export default function HomeScreen() {
 
   const formatNotes = (str) => {
     // Remove Guest
-    str = str.slice(str.indexOf('Summary:'));
+    str = str.slice(str.indexOf('Summary:')).slice(8);
     let summary = str.slice(0, str.indexOf('Key Takeaways:'));
     let keyTakeaways = str.slice(summary.length, str.indexOf('Quotes:'));
-    let quotes = str.slice(summary.length + keyTakeaways.length);
-    return [summary, keyTakeaways, quotes];
+    let quotes = str
+      .slice(summary.length + keyTakeaways.length)
+      .slice(9)
+      .split('\n');
+    keyTakeaways = keyTakeaways.slice(16).split('\n');
+
+    return [summary, keyTakeaways.slice(0, keyTakeaways.length - 1), quotes];
+  };
+
+  const formatTranscript = (str) => {
+    str = str.replaceAll('(Kyle Rice)', '(Dr. Kyle Rice)');
+    return str.slice(14).split('\n');
   };
 
   return (
@@ -123,22 +135,54 @@ export default function HomeScreen() {
           <h2 className="strong center">{mainTitle}</h2>
           <br />
           <section classname="notes">
-            <p className="normalText">
-              <span className="bold">Summary:</span>
-              {formatNotes(notes)[0].slice(8)}
-            </p>
-            <br />
-            <p className="normalText">
-              <span className="bold">Key Takeaways:</span>
-              {formatNotes(notes)[1].slice(14)}
-            </p>
-            <br />
-            <p className="normalText">
-              <span className="bold">Quotes:</span>
-              {formatNotes(notes)[2].slice(7)}
-            </p>
+            {notes ? (
+              <div>
+                <div className="note">
+                  <p className="normalText">
+                    <h3 className="bold inline">Summary:</h3>
+                    {formatNotes(notes)[0]}
+                  </p>
+                </div>
+                <div className="note">
+                  <p className="normalText bulletedContainer">
+                    <h3 className="bold">Key Takeaways:</h3>
+                    <ol>
+                      {formatNotes(notes)[1].map((x) => (
+                        <li className="bulleted">{` ${x}`}</li>
+                      ))}
+                    </ol>
+                  </p>
+                </div>
+
+                <div>
+                  <p className="normalText bulletedContainer">
+                    <h3 className="bold">Quotes</h3>
+                    <ul>
+                      {formatNotes(notes)[2].map((x) => (
+                        <li className="bulleted">{` ${x}`}</li>
+                      ))}
+                    </ul>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              ''
+            )}
           </section>
-          <section className="chapters">{chapters}</section>
+          <section className="chapters">
+            <h3 className="bold">Chapters</h3>
+          </section>
+          <section className="transcript">
+            <h3 className="bold">Transcript</h3>
+            <br />
+            <ul>
+              {formatTranscript(transcript)
+                .filter((x) => x)
+                .map((x) => {
+                  return <li className="disableListStyle">{x}</li>;
+                })}
+            </ul>
+          </section>
         </section>
       </div>
     </main>
