@@ -5,7 +5,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <main>
+        <main className="mainContainer">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
           </Routes>
