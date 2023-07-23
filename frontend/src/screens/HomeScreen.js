@@ -169,20 +169,30 @@ export default function HomeScreen() {
               ''
             )}
           </section>
-          <section className="chapters">
-            <h3 className="bold">Chapters</h3>
-          </section>
-          <section className="transcript">
-            <h3 className="bold">Transcript</h3>
-            <br />
-            <ul>
-              {formatTranscript(transcript)
-                .filter((x) => x)
-                .map((x) => {
-                  return <li className="disableListStyle">{x}</li>;
-                })}
-            </ul>
-          </section>
+
+          {chapters ? (
+            <section className="chapters">
+              <h3 className="bold">Chapters</h3>{' '}
+            </section>
+          ) : (
+            ''
+          )}
+
+          {transcript ? (
+            <section className="transcript">
+              <h3 className="bold">Transcript</h3>
+              <br />
+              <ul>
+                {formatTranscript(transcript)
+                  .filter((x) => x)
+                  .map((x) => {
+                    return <li className="disableListStyle">{x}</li>;
+                  })}
+              </ul>{' '}
+            </section>
+          ) : (
+            ''
+          )}
         </section>
       </div>
     </main>
